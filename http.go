@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 )
 
 // HTTP struct
@@ -15,9 +16,15 @@ type HTTP struct {
 }
 
 // Get http call
-func (h *HTTP) Get(url string, headers map[string]string) (*http.Response, error) {
+func (h *HTTP) Get(endpoint string, parameters map[string]string, headers map[string]string) (*http.Response, error) {
 
-	req, err := http.NewRequest("GET", url, nil)
+	endpoint, err := h.BuildParameters(endpoint, parameters)
+
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", endpoint, nil)
 
 	for k, v := range headers {
 		req.Header.Add(k, v)
@@ -35,9 +42,15 @@ func (h *HTTP) Get(url string, headers map[string]string) (*http.Response, error
 }
 
 // Delete http call
-func (h *HTTP) Delete(url string, headers map[string]string) (*http.Response, error) {
+func (h *HTTP) Delete(endpoint string, parameters map[string]string, headers map[string]string) (*http.Response, error) {
 
-	req, err := http.NewRequest("DELETE", url, nil)
+	endpoint, err := h.BuildParameters(endpoint, parameters)
+
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", endpoint, nil)
 
 	for k, v := range headers {
 		req.Header.Add(k, v)
@@ -52,6 +65,24 @@ func (h *HTTP) Delete(url string, headers map[string]string) (*http.Response, er
 	}
 
 	return resp, err
+}
+
+// BuildParameters add parameters to URL
+func (h *HTTP) BuildParameters(endpoint string, parameters map[string]string) (string, error) {
+	u, err := url.Parse(endpoint)
+
+	if err != nil {
+		return "", err
+	}
+
+	q := u.Query()
+
+	for k, v := range parameters {
+		q.Set(k, v)
+	}
+	u.RawQuery = q.Encode()
+
+	return u.String(), nil
 }
 
 // ToString response body to string
@@ -74,7 +105,7 @@ func (h *HTTP) GetStatusCode(response *http.Response) int {
 // ExampleGet example for Get method
 func ExampleGet() {
 	http := HTTP{}
-	respObj, _ := http.Get("https://httpbin.org/get", map[string]string{"X-AUTH-Token": "123"})
+	respObj, _ := http.Get("https://httpbin.org/get", map[string]string{}, map[string]string{"X-AUTH-Token": "123"})
 	fmt.Println(http.GetStatusCode(respObj))
 	// Output: 200
 }
@@ -82,7 +113,7 @@ func ExampleGet() {
 // ExampleDelete example for Delete method
 func ExampleDelete() {
 	http := HTTP{}
-	respObj, _ := http.Delete("https://httpbin.org/delete", map[string]string{"X-AUTH-Token": "123"})
+	respObj, _ := http.Delete("https://httpbin.org/delete", map[string]string{}, map[string]string{"X-AUTH-Token": "123"})
 	fmt.Println(http.GetStatusCode(respObj))
 	// Output: 200
 }
