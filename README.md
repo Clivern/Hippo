@@ -10,6 +10,10 @@
     </p>
 </p>
 
+Hippo is a collection of well crafted go packages that help you build robust, reliable, maintainable microservices. It is not a full-fledged framework with lot of magic, predefined architecture, specific patterns and opinions so you will be the one behind the wheel.
+
+It provides libraries to implement components for service discovery, async jobs, authentication, authorization, logging, caching, metrics, tracing, rate-limiting...etc which are essential requirements for running microservices in production. 
+
 ## Documentation
 
 
