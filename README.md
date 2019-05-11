@@ -5,7 +5,7 @@
     <p align="center">
         <img src="https://travis-ci.org/Clivern/Hippo.svg?branch=master">
         <img src="https://img.shields.io/badge/Version-1.0.0-red.svg">
-        <img src="https://goreportcard.com/badge/github.com/Clivern/Hippo">
+        <img src="https://goreportcard.com/badge/github.com/Clivern/Hippo?v=1.0.0">
         <img src="https://img.shields.io/badge/LICENSE-MIT-orange.svg">
     </p>
 </p>
