@@ -1,6 +1,7 @@
 module github.com/clivern/hippo
 
 require (
+	github.com/go-redis/redis v6.15.2+incompatible
 	github.com/nbio/st v0.0.0-20140626010706-e9e8d9816f32
 	github.com/satori/go.uuid v1.2.0
 	go.uber.org/atomic v1.4.0 // indirect
