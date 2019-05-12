@@ -9,18 +9,28 @@ import (
 	"strings"
 )
 
-// Consul struct
-type Consul struct {
+// ConsulConfig struct
+type ConsulConfig struct {
 	URL     string
 	Version string
 }
 
+// ConsulStatus struct
+type ConsulStatus struct {
+	Config ConsulConfig
+}
+
+// ConsulKv struct
+type ConsulKv struct {
+	Config ConsulConfig
+}
+
 // GetRaftLeader returns the Raft leader for the datacenter in which the agent is running
-func (c *Consul) GetRaftLeader(parameters map[string]string) (string, error) {
+func (c *ConsulStatus) GetRaftLeader(parameters map[string]string) (string, error) {
 	endpoint := fmt.Sprintf(
 		"%s/%s/status/leader",
-		strings.TrimSuffix(c.URL, "/"),
-		c.Version,
+		strings.TrimSuffix(c.Config.URL, "/"),
+		c.Config.Version,
 	)
 
 	httpClient := HTTP{}
@@ -45,11 +55,11 @@ func (c *Consul) GetRaftLeader(parameters map[string]string) (string, error) {
 }
 
 // ListRaftPeers retrieves the Raft peers for the datacenter in which the the agent is running
-func (c *Consul) ListRaftPeers(parameters map[string]string) (string, error) {
+func (c *ConsulStatus) ListRaftPeers(parameters map[string]string) (string, error) {
 	endpoint := fmt.Sprintf(
 		"%s/%s/status/peers",
-		strings.TrimSuffix(c.URL, "/"),
-		c.Version,
+		strings.TrimSuffix(c.Config.URL, "/"),
+		c.Config.Version,
 	)
 
 	httpClient := HTTP{}
@@ -58,6 +68,104 @@ func (c *Consul) ListRaftPeers(parameters map[string]string) (string, error) {
 
 	if err != nil {
 		return "", err
+	}
+
+	if httpClient.GetStatusCode(response) != 200 {
+		return "", fmt.Errorf("Invalid http status code %d", httpClient.GetStatusCode(response))
+	}
+
+	body, err := httpClient.ToString(response)
+
+	if err != nil {
+		return "", err
+	}
+
+	return body, nil
+}
+
+// Read gets a kv
+func (c *ConsulKv) Read(key string, parameters map[string]string) (string, error) {
+	endpoint := fmt.Sprintf(
+		"%s/%s/kv/%s",
+		strings.TrimSuffix(c.Config.URL, "/"),
+		c.Config.Version,
+		key,
+	)
+
+	httpClient := HTTP{}
+
+	response, err := httpClient.Get(endpoint, parameters, map[string]string{})
+
+	if err != nil {
+		return "", err
+	}
+
+	if httpClient.GetStatusCode(response) == 404 {
+		return "", fmt.Errorf("Key %s not exist", key)
+	}
+
+	if httpClient.GetStatusCode(response) != 200 {
+		return "", fmt.Errorf("Invalid http status code %d", httpClient.GetStatusCode(response))
+	}
+
+	body, err := httpClient.ToString(response)
+
+	if err != nil {
+		return "", err
+	}
+
+	return body, nil
+}
+
+// Update update or create a kv
+func (c *ConsulKv) Update(key string, value string, parameters map[string]string) (string, error) {
+	endpoint := fmt.Sprintf(
+		"%s/%s/kv/%s",
+		strings.TrimSuffix(c.Config.URL, "/"),
+		c.Config.Version,
+		key,
+	)
+
+	httpClient := HTTP{}
+
+	response, err := httpClient.Post(endpoint, value, parameters, map[string]string{})
+
+	if err != nil {
+		return "", err
+	}
+
+	if httpClient.GetStatusCode(response) != 200 {
+		return "", fmt.Errorf("Invalid http status code %d", httpClient.GetStatusCode(response))
+	}
+
+	body, err := httpClient.ToString(response)
+
+	if err != nil {
+		return "", err
+	}
+
+	return body, nil
+}
+
+// Delete deletes a kv
+func (c *ConsulKv) Delete(key string, parameters map[string]string) (string, error) {
+	endpoint := fmt.Sprintf(
+		"%s/%s/kv/%s",
+		strings.TrimSuffix(c.Config.URL, "/"),
+		c.Config.Version,
+		key,
+	)
+
+	httpClient := HTTP{}
+
+	response, err := httpClient.Get(endpoint, parameters, map[string]string{})
+
+	if err != nil {
+		return "", err
+	}
+
+	if httpClient.GetStatusCode(response) == 404 {
+		return "", fmt.Errorf("Key %s not exist", key)
 	}
 
 	if httpClient.GetStatusCode(response) != 200 {

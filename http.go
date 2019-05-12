@@ -5,6 +5,7 @@
 package hippo
 
 import (
+	"bytes"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -25,6 +26,58 @@ func (h *HTTP) Get(endpoint string, parameters map[string]string, headers map[st
 	}
 
 	req, err := http.NewRequest("GET", endpoint, nil)
+
+	for k, v := range headers {
+		req.Header.Add(k, v)
+	}
+
+	client := http.Client{}
+
+	resp, err := client.Do(req)
+
+	if err != nil {
+		return resp, err
+	}
+
+	return resp, err
+}
+
+// Post http call
+func (h *HTTP) Post(endpoint string, data string, parameters map[string]string, headers map[string]string) (*http.Response, error) {
+
+	endpoint, err := h.BuildParameters(endpoint, parameters)
+
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", endpoint, bytes.NewBuffer([]byte(data)))
+
+	for k, v := range headers {
+		req.Header.Add(k, v)
+	}
+
+	client := http.Client{}
+
+	resp, err := client.Do(req)
+
+	if err != nil {
+		return resp, err
+	}
+
+	return resp, err
+}
+
+// Put http call
+func (h *HTTP) Put(endpoint string, data string, parameters map[string]string, headers map[string]string) (*http.Response, error) {
+
+	endpoint, err := h.BuildParameters(endpoint, parameters)
+
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", endpoint, bytes.NewBuffer([]byte(data)))
 
 	for k, v := range headers {
 		req.Header.Add(k, v)
@@ -87,6 +140,7 @@ func (h *HTTP) BuildParameters(endpoint string, parameters map[string]string) (s
 
 // ToString response body to string
 func (h *HTTP) ToString(response *http.Response) (string, error) {
+	defer response.Body.Close()
 
 	body, err := ioutil.ReadAll(response.Body)
 
