@@ -60,7 +60,7 @@ func TestPost(t *testing.T) {
 	httpClient := HTTP{}
 	response, error := httpClient.Post(
 		"https://httpbin.org/post",
-		"{\"Username\":\"admin\", \"Password\":\"12345\"}",
+		`{"Username":"admin", "Password":"12345"}`,
 		map[string]string{"arg1": "value1"},
 		map[string]string{"X-Auth": "hipp-123"},
 	)
@@ -70,10 +70,10 @@ func TestPost(t *testing.T) {
 
 	body, error := httpClient.ToString(response)
 	t.Log(body)
-	st.Expect(t, true, strings.Contains(body, "\"12345\""))
-	st.Expect(t, true, strings.Contains(body, "\"Username\""))
-	st.Expect(t, true, strings.Contains(body, "\"admin\""))
-	st.Expect(t, true, strings.Contains(body, "\"Password\""))
+	st.Expect(t, true, strings.Contains(body, `"12345"`))
+	st.Expect(t, true, strings.Contains(body, `"Username"`))
+	st.Expect(t, true, strings.Contains(body, `"admin"`))
+	st.Expect(t, true, strings.Contains(body, `"Password"`))
 	st.Expect(t, true, strings.Contains(body, "value1"))
 	st.Expect(t, true, strings.Contains(body, "arg1"))
 	st.Expect(t, true, strings.Contains(body, "arg1=value1"))
@@ -87,7 +87,7 @@ func TestPut(t *testing.T) {
 	httpClient := HTTP{}
 	response, error := httpClient.Put(
 		"https://httpbin.org/put",
-		"{\"Username\":\"admin\", \"Password\":\"12345\"}",
+		`{"Username":"admin", "Password":"12345"}`,
 		map[string]string{"arg1": "value1"},
 		map[string]string{"X-Auth": "hipp-123"},
 	)
@@ -97,10 +97,10 @@ func TestPut(t *testing.T) {
 
 	body, error := httpClient.ToString(response)
 	t.Log(body)
-	st.Expect(t, true, strings.Contains(body, "\"12345\""))
-	st.Expect(t, true, strings.Contains(body, "\"Username\""))
-	st.Expect(t, true, strings.Contains(body, "\"admin\""))
-	st.Expect(t, true, strings.Contains(body, "\"Password\""))
+	st.Expect(t, true, strings.Contains(body, `"12345"`))
+	st.Expect(t, true, strings.Contains(body, `"Username"`))
+	st.Expect(t, true, strings.Contains(body, `"admin"`))
+	st.Expect(t, true, strings.Contains(body, `"Password"`))
 	st.Expect(t, true, strings.Contains(body, "value1"))
 	st.Expect(t, true, strings.Contains(body, "arg1"))
 	st.Expect(t, true, strings.Contains(body, "arg1=value1"))
