@@ -1,5 +1,5 @@
 <p align="center">
-    <img alt="Hippo Logo" src="https://raw.githubusercontent.com/Clivern/Hippo/master/assets/img/logo.png" height="80" />
+    <img alt="Hippo Logo" src="https://raw.githubusercontent.com/Clivern/Hippo/master/assets/img/logo.png" height="100" />
     <h3 align="center">Hippo</h3>
     <p align="center">A Microservices Toolkit.</p>
     <p align="center">
