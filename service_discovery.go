@@ -6,6 +6,7 @@ package hippo
 
 import (
 	"fmt"
+	"net/http"
 	"strings"
 )
 
@@ -41,7 +42,7 @@ func (c *ConsulStatus) GetRaftLeader(parameters map[string]string) (string, erro
 		return "", err
 	}
 
-	if httpClient.GetStatusCode(response) != 200 {
+	if httpClient.GetStatusCode(response) != http.StatusOK {
 		return "", fmt.Errorf("Invalid http status code %d", httpClient.GetStatusCode(response))
 	}
 
@@ -70,7 +71,7 @@ func (c *ConsulStatus) ListRaftPeers(parameters map[string]string) (string, erro
 		return "", err
 	}
 
-	if httpClient.GetStatusCode(response) != 200 {
+	if httpClient.GetStatusCode(response) != http.StatusOK {
 		return "", fmt.Errorf("Invalid http status code %d", httpClient.GetStatusCode(response))
 	}
 
@@ -100,11 +101,11 @@ func (c *ConsulKv) Read(key string, parameters map[string]string) (string, error
 		return "", err
 	}
 
-	if httpClient.GetStatusCode(response) == 404 {
+	if httpClient.GetStatusCode(response) == http.StatusNotFound {
 		return "", fmt.Errorf("Key %s not exist", key)
 	}
 
-	if httpClient.GetStatusCode(response) != 200 {
+	if httpClient.GetStatusCode(response) != http.StatusOK {
 		return "", fmt.Errorf("Invalid http status code %d", httpClient.GetStatusCode(response))
 	}
 
@@ -134,7 +135,7 @@ func (c *ConsulKv) Update(key string, value string, parameters map[string]string
 		return "", err
 	}
 
-	if httpClient.GetStatusCode(response) != 200 {
+	if httpClient.GetStatusCode(response) != http.StatusOK {
 		return "", fmt.Errorf("Invalid http status code %d", httpClient.GetStatusCode(response))
 	}
 
@@ -164,11 +165,11 @@ func (c *ConsulKv) Delete(key string, parameters map[string]string) (string, err
 		return "", err
 	}
 
-	if httpClient.GetStatusCode(response) == 404 {
-		return "", fmt.Errorf("Key %s not exist", key)
+	if httpClient.GetStatusCode(response) == http.StatusNotFound {
+		return "", fmt.Errorf("Key [%s] does not exist", key)
 	}
 
-	if httpClient.GetStatusCode(response) != 200 {
+	if httpClient.GetStatusCode(response) != http.StatusOK {
 		return "", fmt.Errorf("Invalid http status code %d", httpClient.GetStatusCode(response))
 	}
 
