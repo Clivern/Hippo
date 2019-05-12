@@ -30,7 +30,7 @@ func TestRedis(t *testing.T) {
 	st.Expect(t, int(count), 0)
 	st.Expect(t, err, nil)
 
-	ok, err = driver.Set("app_name", "Beaver", 0)
+	ok, err = driver.Set("app_name", "Hippo", 0)
 	st.Expect(t, ok, true)
 	st.Expect(t, err, nil)
 
@@ -39,14 +39,14 @@ func TestRedis(t *testing.T) {
 	st.Expect(t, err, nil)
 
 	value, err := driver.Get("app_name")
-	st.Expect(t, value, "Beaver")
+	st.Expect(t, value, "Hippo")
 	st.Expect(t, err, nil)
 
 	count, err = driver.HDel("configs", "app_name")
 	st.Expect(t, int(count), 0)
 	st.Expect(t, err, nil)
 
-	ok, err = driver.HSet("configs", "app_name", "Beaver")
+	ok, err = driver.HSet("configs", "app_name", "Hippo")
 	st.Expect(t, ok, true)
 	st.Expect(t, err, nil)
 
@@ -55,7 +55,7 @@ func TestRedis(t *testing.T) {
 	st.Expect(t, err, nil)
 
 	value, err = driver.HGet("configs", "app_name")
-	st.Expect(t, value, "Beaver")
+	st.Expect(t, value, "Hippo")
 	st.Expect(t, err, nil)
 
 	count, err = driver.HLen("configs")
