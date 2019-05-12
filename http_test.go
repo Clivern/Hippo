@@ -180,3 +180,12 @@ func TestHttpGetStatusCode4(t *testing.T) {
 	st.Expect(t, "", body)
 	st.Expect(t, nil, error)
 }
+
+// TestBuildParameters test cases
+func TestBuildParameters(t *testing.T) {
+	httpClient := HTTP{}
+	url, error := httpClient.BuildParameters("http://127.0.0.1", map[string]string{"arg1": "value1"})
+	t.Log(url)
+	st.Expect(t, "http://127.0.0.1?arg1=value1", url)
+	st.Expect(t, nil, error)
+}
