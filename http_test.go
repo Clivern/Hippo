@@ -11,8 +11,8 @@ import (
 	"testing"
 )
 
-// TestGet test cases
-func TestGet(t *testing.T) {
+// TestHttpGet test cases
+func TestHttpGet(t *testing.T) {
 	httpClient := HTTP{}
 	response, error := httpClient.Get(
 		"https://httpbin.org/get",
@@ -33,8 +33,8 @@ func TestGet(t *testing.T) {
 	st.Expect(t, nil, error)
 }
 
-// TestDelete test cases
-func TestDelete(t *testing.T) {
+// TestHttpDelete test cases
+func TestHttpDelete(t *testing.T) {
 	httpClient := HTTP{}
 	response, error := httpClient.Delete(
 		"https://httpbin.org/delete",
@@ -55,8 +55,8 @@ func TestDelete(t *testing.T) {
 	st.Expect(t, nil, error)
 }
 
-// TestPost test cases
-func TestPost(t *testing.T) {
+// TestHttpPost test cases
+func TestHttpPost(t *testing.T) {
 	httpClient := HTTP{}
 	response, error := httpClient.Post(
 		"https://httpbin.org/post",
@@ -82,8 +82,8 @@ func TestPost(t *testing.T) {
 	st.Expect(t, nil, error)
 }
 
-// TestPut test cases
-func TestPut(t *testing.T) {
+// TestHttpPut test cases
+func TestHttpPut(t *testing.T) {
 	httpClient := HTTP{}
 	response, error := httpClient.Put(
 		"https://httpbin.org/put",
@@ -109,8 +109,8 @@ func TestPut(t *testing.T) {
 	st.Expect(t, nil, error)
 }
 
-// TestGetStatusCode1 test cases
-func TestGetStatusCode1(t *testing.T) {
+// TestHttpGetStatusCode1 test cases
+func TestHttpGetStatusCode1(t *testing.T) {
 	httpClient := HTTP{}
 	response, error := httpClient.Get(
 		"https://httpbin.org/status/200",
@@ -127,8 +127,8 @@ func TestGetStatusCode1(t *testing.T) {
 	st.Expect(t, nil, error)
 }
 
-// TestGetStatusCode2 test cases
-func TestGetStatusCode2(t *testing.T) {
+// TestHttpGetStatusCode2 test cases
+func TestHttpGetStatusCode2(t *testing.T) {
 	httpClient := HTTP{}
 	response, error := httpClient.Get(
 		"https://httpbin.org/status/500",
@@ -145,8 +145,8 @@ func TestGetStatusCode2(t *testing.T) {
 	st.Expect(t, nil, error)
 }
 
-// TestGetStatusCode3 test cases
-func TestGetStatusCode3(t *testing.T) {
+// TestHttpGetStatusCode3 test cases
+func TestHttpGetStatusCode3(t *testing.T) {
 	httpClient := HTTP{}
 	response, error := httpClient.Get(
 		"https://httpbin.org/status/404",
@@ -163,8 +163,8 @@ func TestGetStatusCode3(t *testing.T) {
 	st.Expect(t, nil, error)
 }
 
-// TestGetStatusCode4 test cases
-func TestGetStatusCode4(t *testing.T) {
+// TestHttpGetStatusCode4 test cases
+func TestHttpGetStatusCode4(t *testing.T) {
 	httpClient := HTTP{}
 	response, error := httpClient.Get(
 		"https://httpbin.org/status/201",
