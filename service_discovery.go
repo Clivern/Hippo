@@ -43,7 +43,7 @@ func (c *ConsulStatus) GetRaftLeader(parameters map[string]string) (string, erro
 	}
 
 	if httpClient.GetStatusCode(response) != http.StatusOK {
-		return "", fmt.Errorf("Invalid http status code %d", httpClient.GetStatusCode(response))
+		return "", fmt.Errorf("Error: Invalid HTTP status code %d", httpClient.GetStatusCode(response))
 	}
 
 	body, err := httpClient.ToString(response)
@@ -72,7 +72,7 @@ func (c *ConsulStatus) ListRaftPeers(parameters map[string]string) (string, erro
 	}
 
 	if httpClient.GetStatusCode(response) != http.StatusOK {
-		return "", fmt.Errorf("Invalid http status code %d", httpClient.GetStatusCode(response))
+		return "", fmt.Errorf("Error: Invalid HTTP status code %d", httpClient.GetStatusCode(response))
 	}
 
 	body, err := httpClient.ToString(response)
@@ -102,11 +102,11 @@ func (c *ConsulKv) Read(key string, parameters map[string]string) (string, error
 	}
 
 	if httpClient.GetStatusCode(response) == http.StatusNotFound {
-		return "", fmt.Errorf("Key %s not exist", key)
+		return "", fmt.Errorf("Error: Key [%s] does not exist", key)
 	}
 
 	if httpClient.GetStatusCode(response) != http.StatusOK {
-		return "", fmt.Errorf("Invalid http status code %d", httpClient.GetStatusCode(response))
+		return "", fmt.Errorf("Error: Invalid HTTP status code %d", httpClient.GetStatusCode(response))
 	}
 
 	body, err := httpClient.ToString(response)
@@ -136,7 +136,7 @@ func (c *ConsulKv) Update(key string, value string, parameters map[string]string
 	}
 
 	if httpClient.GetStatusCode(response) != http.StatusOK {
-		return "", fmt.Errorf("Invalid http status code %d", httpClient.GetStatusCode(response))
+		return "", fmt.Errorf("Error: Invalid HTTP status code %d", httpClient.GetStatusCode(response))
 	}
 
 	body, err := httpClient.ToString(response)
@@ -166,11 +166,11 @@ func (c *ConsulKv) Delete(key string, parameters map[string]string) (string, err
 	}
 
 	if httpClient.GetStatusCode(response) == http.StatusNotFound {
-		return "", fmt.Errorf("Key [%s] does not exist", key)
+		return "", fmt.Errorf("Error: Key [%s] does not exist", key)
 	}
 
 	if httpClient.GetStatusCode(response) != http.StatusOK {
-		return "", fmt.Errorf("Invalid http status code %d", httpClient.GetStatusCode(response))
+		return "", fmt.Errorf("Error: Invalid HTTP status code %d", httpClient.GetStatusCode(response))
 	}
 
 	body, err := httpClient.ToString(response)
