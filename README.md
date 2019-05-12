@@ -17,6 +17,19 @@ It provides libraries to implement components for service discovery, async jobs,
 
 ## Documentation
 
+### Installation:
+
+```golang
+go get -u github.com/clivern/hippo
+```
+```golang
+import (
+    "github.com/clivern/hippo"
+)
+```
+
+### Components:
+
 
 ## Versioning
 
