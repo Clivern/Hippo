@@ -12,14 +12,14 @@ import (
 type Logger struct {
 }
 
-// Create returns a logger instance
-func (L *Logger) Create() (*zap.Logger, error) {
+// New returns a logger instance
+func (l *Logger) New() (*zap.Logger, error) {
 	return zap.NewProduction()
 }
 
 // Info logs info message
-func (L *Logger) Info(v ...interface{}) {
-	logger, _ := L.Create()
+func (l *Logger) Info(v ...interface{}) {
+	logger, _ := l.New()
 	defer logger.Sync()
 	sugar := logger.Sugar()
 	sugar.Info(v...)
