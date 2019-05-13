@@ -70,27 +70,11 @@ vet:
 	$(GO) vet $(pkgs)
 
 
-## dev_run: Run the application main file.
-dev_run:
-	$(GO) run hippo.go
-
-
-## prod_run: Build and run the application.
-prod_run: build
-	./hippo
-
-
 ## coverage: Create HTML coverage report
 coverage:
 	rm -f coverage.html cover.out
 	$(GO) test -coverprofile=cover.out $(pkgs)
 	go tool cover -html=cover.out -o coverage.html
-
-
-## build: Build the application.
-build:
-	rm -f hippo
-	$(GO) build -o hippo hippo.go
 
 
 ## ci: Run all CI tests.
