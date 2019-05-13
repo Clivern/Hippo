@@ -17,6 +17,12 @@ type Redis struct {
 	DB       int
 }
 
+// Message item
+type Message struct {
+	Channel string
+	Payload string
+}
+
 // NewRedisDriver create a new instance
 func NewRedisDriver(addr string, password string, db int) *Redis {
 	return &Redis{
@@ -166,4 +172,34 @@ func (r *Redis) HTruncate(key string) (int64, error) {
 // HScan return an iterative obj for a hash
 func (r *Redis) HScan(key string, cursor uint64, match string, count int64) *redis.ScanCmd {
 	return r.Client.HScan(key, cursor, match, count)
+}
+
+// Publish sends a message to channel
+func (r *Redis) Publish(channel string, message string) (bool, error) {
+	result := r.Client.Publish(channel, message)
+
+	if result.Err() != nil {
+		return false, result.Err()
+	}
+	return true, nil
+}
+
+// Subscribe listens to a channel
+func (r *Redis) Subscribe(channel string, callback func(message Message) error) error {
+	pubsub := r.Client.Subscribe(channel)
+	defer pubsub.Close()
+
+	ch := pubsub.Channel()
+
+	for msg := range ch {
+		message := Message{
+			Channel: msg.Channel,
+			Payload: msg.Payload,
+		}
+		err := callback(message)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }

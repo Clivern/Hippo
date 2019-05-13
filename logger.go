@@ -10,6 +10,7 @@ import (
 
 // Logger struct
 type Logger struct {
+	Driver string
 }
 
 // New returns a logger instance
