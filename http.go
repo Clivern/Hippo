@@ -25,7 +25,7 @@ func (h *HTTP) Get(endpoint string, parameters map[string]string, headers map[st
 		return nil, err
 	}
 
-	req, err := http.NewRequest("GET", endpoint, nil)
+	req, _ := http.NewRequest("GET", endpoint, nil)
 
 	for k, v := range headers {
 		req.Header.Add(k, v)
@@ -51,7 +51,7 @@ func (h *HTTP) Post(endpoint string, data string, parameters map[string]string, 
 		return nil, err
 	}
 
-	req, err := http.NewRequest("POST", endpoint, bytes.NewBuffer([]byte(data)))
+	req, _ := http.NewRequest("POST", endpoint, bytes.NewBuffer([]byte(data)))
 
 	for k, v := range headers {
 		req.Header.Add(k, v)
@@ -77,7 +77,7 @@ func (h *HTTP) Put(endpoint string, data string, parameters map[string]string, h
 		return nil, err
 	}
 
-	req, err := http.NewRequest("PUT", endpoint, bytes.NewBuffer([]byte(data)))
+	req, _ := http.NewRequest("PUT", endpoint, bytes.NewBuffer([]byte(data)))
 
 	for k, v := range headers {
 		req.Header.Add(k, v)
@@ -103,7 +103,7 @@ func (h *HTTP) Delete(endpoint string, parameters map[string]string, headers map
 		return nil, err
 	}
 
-	req, err := http.NewRequest("DELETE", endpoint, nil)
+	req, _ := http.NewRequest("DELETE", endpoint, nil)
 
 	for k, v := range headers {
 		req.Header.Add(k, v)
