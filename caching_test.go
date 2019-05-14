@@ -72,14 +72,16 @@ func TestRedis(t *testing.T) {
 	st.Expect(t, int(count), 0)
 	st.Expect(t, err, nil)
 
-	go driver.Subscribe("hippo", func(message Message) error {
-		fmt.Println(message.Channel, message.Payload)
-		t.Log(message.Channel)
-		t.Log(message.Payload)
-		st.Expect(t, "hippo", message.Channel)
-		st.Expect(t, "Hello World", message.Payload)
-		return fmt.Errorf("Terminate listener")
-	})
+	go func() {
+		driver.Subscribe("hippo", func(message Message) error {
+			fmt.Println(message.Channel, message.Payload)
+			t.Log(message.Channel)
+			t.Log(message.Payload)
+			st.Expect(t, "hippo", message.Channel)
+			st.Expect(t, "Hello World", message.Payload)
+			return fmt.Errorf("Terminate listener")
+		})
+	}()
 
 	go func() {
 		for i := 0; i < 5; i++ {
