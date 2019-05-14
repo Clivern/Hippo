@@ -27,6 +27,16 @@ func (l *Logger) New() (*zap.Logger, error) {
 	return zap.NewProduction()
 }
 
+// AddOutDriver adds output driver
+func (l *Logger) AddOutDriver(driver string) {
+	l.OutDrivers = append(l.OutDrivers, driver)
+}
+
+// GetOutDrivers gets output drivers
+func (l *Logger) GetOutDrivers() []string {
+	return l.OutDrivers
+}
+
 // Info logs info message
 func (l *Logger) Info(v ...interface{}) {
 	logger, _ := l.New()
