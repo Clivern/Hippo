@@ -71,22 +71,4 @@ func TestRedis(t *testing.T) {
 	count, err = driver.HTruncate("configs")
 	st.Expect(t, int(count), 0)
 	st.Expect(t, err, nil)
-
-	go func() {
-		driver.Subscribe("hippo", func(message Message) error {
-			fmt.Println(message.Channel, message.Payload)
-			t.Log(message.Channel)
-			t.Log(message.Payload)
-			st.Expect(t, "hippo", message.Channel)
-			st.Expect(t, "Hello World", message.Payload)
-			return fmt.Errorf("Terminate listener")
-		})
-	}()
-
-	go func() {
-		for i := 0; i < 5; i++ {
-			driver.Publish("hippo", "Hello World")
-			time.Sleep(1 * time.Second)
-		}
-	}()
 }
