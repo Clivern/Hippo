@@ -5,10 +5,8 @@
 package hippo
 
 import (
-	"fmt"
 	"github.com/nbio/st"
 	"testing"
-	"time"
 )
 
 // TestRedis test cases
