@@ -8,6 +8,15 @@ import (
 	"go.uber.org/zap"
 )
 
+// StdoutDriver the stdout driver
+const StdoutDriver = "STDOUT"
+
+// FileDriver the file driver
+const FileDriver = "FILE"
+
+// ElkDriver the elk driver
+const ElkDriver = "ELK"
+
 // Logger struct
 type Logger struct {
 	Driver string
