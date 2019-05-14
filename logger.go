@@ -19,7 +19,7 @@ const ElkDriver = "ELK"
 
 // Logger struct
 type Logger struct {
-	Driver string
+	OutDrivers []string
 }
 
 // New returns a logger instance
