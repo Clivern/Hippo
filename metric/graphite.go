@@ -5,6 +5,7 @@
 package metric
 
 import (
+	"bytes"
 	"fmt"
 	"log"
 	"net"
