@@ -9,8 +9,8 @@ import (
 	"time"
 )
 
-// Limiter interface
-type Limiter interface {
+// ProcessLimiter interface
+type ProcessLimiter interface {
 	// Take should block to make sure that the RPS is met.
 	Take() time.Time
 }
@@ -29,8 +29,8 @@ func (c *Clock) Sleep(d time.Duration) {
 	time.Sleep(d)
 }
 
-// limiter type
-type limiter struct {
+// processLimiter type
+type processLimiter struct {
 	sync.Mutex
 	last       time.Time
 	sleepFor   time.Duration
@@ -39,9 +39,9 @@ type limiter struct {
 	clock      Clock
 }
 
-// NewLimiter create a new rate limiter
-func NewLimiter(rate int) Limiter {
-	l := &limiter{
+// NewProcessLimiter create a new process rate limiter
+func NewProcessLimiter(rate int) ProcessLimiter {
+	l := &processLimiter{
 		perRequest: time.Second / time.Duration(rate),
 		maxSlack:   -10 * time.Second / time.Duration(rate),
 	}
@@ -51,7 +51,7 @@ func NewLimiter(rate int) Limiter {
 }
 
 // Take sleep for time to limit requests
-func (t *limiter) Take() time.Time {
+func (t *processLimiter) Take() time.Time {
 	t.Lock()
 	defer t.Unlock()
 
