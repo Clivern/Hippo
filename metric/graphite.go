@@ -6,6 +6,7 @@ package metric
 
 import (
 	"fmt"
+	"log"
 	"net"
 	"time"
 )
@@ -113,6 +114,40 @@ func (graphite *Graphite) Connect() error {
 	}
 
 	return nil
+}
+
+// SendMetric sends metric to graphite
+func (graphite *Graphite) SendMetric(metric Metric) error {
+	metrics := make([]Metric, 1)
+	metrics[0] = metric
+
+	return graphite.sendMetrics(metrics)
+}
+
+// SendMetrics sends metrics to graphite
+func (graphite *Graphite) SendMetrics(metrics []Metric) error {
+	return graphite.sendMetrics(metrics)
+}
+
+// NewGraphite is a factory method that's used to create a new Graphite
+func NewGraphite(host string, port int) (*Graphite, error) {
+	return GraphiteFactory("tcp", host, port, "")
+}
+
+// NewGraphiteWithMetricPrefix is a factory method that's used to create a new Graphite
+func NewGraphiteWithMetricPrefix(host string, port int, prefix string) (*Graphite, error) {
+	return GraphiteFactory("tcp", host, port, prefix)
+}
+
+// NewGraphiteUDP is a factory method that's used to create a new Graphite
+func NewGraphiteUDP(host string, port int) (*Graphite, error) {
+	return GraphiteFactory("udp", host, port, "")
+}
+
+// NewGraphiteNop is a factory method that's used to create a new Graphite
+func NewGraphiteNop(host string, port int) *Graphite {
+	graphiteNop, _ := GraphiteFactory("nop", host, port, "")
+	return graphiteNop
 }
 
 // sendMetrics sends metrics to graphite
