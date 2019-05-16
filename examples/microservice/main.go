@@ -4,6 +4,21 @@
 
 package main
 
-func main() {
+import (
+	"github.com/clivern/hippo"
+	"github.com/gin-gonic/gin"
+)
 
+func main() {
+	r := gin.Default()
+
+	correlation := hippo.NewCorrelation()
+
+	r.GET("/", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message":     "pong",
+			"correlation": correlation.UUIDv4(),
+		})
+	})
+	r.Run()
 }
