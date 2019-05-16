@@ -30,6 +30,12 @@ import (
 
 ### Components:
 
+To create correlation ID
+
+```golang
+correlation := hippo.NewCorrelation()
+correlation.UUIDv4()
+```
 
 ## Versioning
 
