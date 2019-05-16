@@ -31,8 +31,8 @@ type Metric struct {
 	Timestamp int64
 }
 
-// graphite struct
-type graphite struct {
+// graphiteClient struct
+type graphiteClient struct {
 	Host     string
 	Port     int
 	Protocol string
@@ -63,22 +63,22 @@ func NewMetric(name, value string, timestamp int64) *Metric {
 
 // NewGraphite create instance of graphite
 func NewGraphite(protocol string, host string, port int, prefix string) TimeSeries {
-	var graph *graphite
+	var graph *graphiteClient
 
 	switch protocol {
 	case "tcp":
-		graph = &graphite{Host: host, Port: port, Protocol: "tcp", Prefix: prefix}
+		graph = &graphiteClient{Host: host, Port: port, Protocol: "tcp", Prefix: prefix}
 	case "udp":
-		graph = &graphite{Host: host, Port: port, Protocol: "udp", Prefix: prefix}
+		graph = &graphiteClient{Host: host, Port: port, Protocol: "udp", Prefix: prefix}
 	case "nop":
-		graph = &graphite{Host: host, Port: port, nop: true}
+		graph = &graphiteClient{Host: host, Port: port, nop: true}
 	}
 
 	return graph
 }
 
 // Connect connect to graphite
-func (graphite *graphite) Connect() error {
+func (graphite *graphiteClient) Connect() error {
 	if !graphite.IsNop() {
 		if graphite.conn != nil {
 			graphite.conn.Close()
@@ -114,7 +114,7 @@ func (graphite *graphite) Connect() error {
 }
 
 // SendMetric sends metric to graphite
-func (graphite *graphite) SendMetric(metric Metric) error {
+func (graphite *graphiteClient) SendMetric(metric Metric) error {
 	metrics := make([]Metric, 1)
 	metrics[0] = metric
 
@@ -122,7 +122,7 @@ func (graphite *graphite) SendMetric(metric Metric) error {
 }
 
 // sendMetrics sends metrics to graphite
-func (graphite *graphite) sendMetrics(metrics []Metric) error {
+func (graphite *graphiteClient) sendMetrics(metrics []Metric) error {
 	if graphite.IsNop() {
 		for _, metric := range metrics {
 			log.Printf("Graphite: %s\n", metric)
@@ -160,7 +160,7 @@ func (graphite *graphite) sendMetrics(metrics []Metric) error {
 }
 
 // IsNop is a getter for *graphite.Graphite.nop
-func (graphite *graphite) IsNop() bool {
+func (graphite *graphiteClient) IsNop() bool {
 	if graphite.nop {
 		return true
 	}
@@ -168,7 +168,7 @@ func (graphite *graphite) IsNop() bool {
 }
 
 // Disconnect disconnect the connection
-func (graphite *graphite) Disconnect() error {
+func (graphite *graphiteClient) Disconnect() error {
 	err := graphite.conn.Close()
 	graphite.conn = nil
 	return err
