@@ -13,7 +13,7 @@ import (
 
 // TestHttpGet test cases
 func TestHttpGet(t *testing.T) {
-	httpClient := HTTP{}
+	httpClient := NewHTTPClient()
 	response, error := httpClient.Get(
 		"https://httpbin.org/get",
 		map[string]string{"arg1": "value1"},
@@ -35,7 +35,7 @@ func TestHttpGet(t *testing.T) {
 
 // TestHttpDelete test cases
 func TestHttpDelete(t *testing.T) {
-	httpClient := HTTP{}
+	httpClient := NewHTTPClient()
 	response, error := httpClient.Delete(
 		"https://httpbin.org/delete",
 		map[string]string{"arg1": "value1"},
@@ -57,7 +57,7 @@ func TestHttpDelete(t *testing.T) {
 
 // TestHttpPost test cases
 func TestHttpPost(t *testing.T) {
-	httpClient := HTTP{}
+	httpClient := NewHTTPClient()
 	response, error := httpClient.Post(
 		"https://httpbin.org/post",
 		`{"Username":"admin", "Password":"12345"}`,
@@ -84,7 +84,7 @@ func TestHttpPost(t *testing.T) {
 
 // TestHttpPut test cases
 func TestHttpPut(t *testing.T) {
-	httpClient := HTTP{}
+	httpClient := NewHTTPClient()
 	response, error := httpClient.Put(
 		"https://httpbin.org/put",
 		`{"Username":"admin", "Password":"12345"}`,
@@ -111,7 +111,7 @@ func TestHttpPut(t *testing.T) {
 
 // TestHttpGetStatusCode1 test cases
 func TestHttpGetStatusCode1(t *testing.T) {
-	httpClient := HTTP{}
+	httpClient := NewHTTPClient()
 	response, error := httpClient.Get(
 		"https://httpbin.org/status/200",
 		map[string]string{"arg1": "value1"},
@@ -129,7 +129,7 @@ func TestHttpGetStatusCode1(t *testing.T) {
 
 // TestHttpGetStatusCode2 test cases
 func TestHttpGetStatusCode2(t *testing.T) {
-	httpClient := HTTP{}
+	httpClient := NewHTTPClient()
 	response, error := httpClient.Get(
 		"https://httpbin.org/status/500",
 		map[string]string{"arg1": "value1"},
@@ -147,7 +147,7 @@ func TestHttpGetStatusCode2(t *testing.T) {
 
 // TestHttpGetStatusCode3 test cases
 func TestHttpGetStatusCode3(t *testing.T) {
-	httpClient := HTTP{}
+	httpClient := NewHTTPClient()
 	response, error := httpClient.Get(
 		"https://httpbin.org/status/404",
 		map[string]string{"arg1": "value1"},
@@ -165,7 +165,7 @@ func TestHttpGetStatusCode3(t *testing.T) {
 
 // TestHttpGetStatusCode4 test cases
 func TestHttpGetStatusCode4(t *testing.T) {
-	httpClient := HTTP{}
+	httpClient := NewHTTPClient()
 	response, error := httpClient.Get(
 		"https://httpbin.org/status/201",
 		map[string]string{"arg1": "value1"},
@@ -183,7 +183,7 @@ func TestHttpGetStatusCode4(t *testing.T) {
 
 // TestBuildParameters test cases
 func TestBuildParameters(t *testing.T) {
-	httpClient := HTTP{}
+	httpClient := NewHTTPClient()
 	url, error := httpClient.BuildParameters("http://127.0.0.1", map[string]string{"arg1": "value1"})
 	t.Log(url)
 	st.Expect(t, "http://127.0.0.1?arg1=value1", url)

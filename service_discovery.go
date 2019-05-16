@@ -34,7 +34,7 @@ func (c *ConsulStatus) GetRaftLeader(parameters map[string]string) (string, erro
 		c.Config.Version,
 	)
 
-	httpClient := HTTP{}
+	httpClient := NewHTTPClient()
 
 	response, err := httpClient.Get(endpoint, parameters, map[string]string{})
 
@@ -63,7 +63,7 @@ func (c *ConsulStatus) ListRaftPeers(parameters map[string]string) (string, erro
 		c.Config.Version,
 	)
 
-	httpClient := HTTP{}
+	httpClient := NewHTTPClient()
 
 	response, err := httpClient.Get(endpoint, parameters, map[string]string{})
 
@@ -93,7 +93,7 @@ func (c *ConsulKv) Read(key string, parameters map[string]string) (string, error
 		key,
 	)
 
-	httpClient := HTTP{}
+	httpClient := NewHTTPClient()
 
 	response, err := httpClient.Get(endpoint, parameters, map[string]string{})
 
@@ -127,7 +127,7 @@ func (c *ConsulKv) Update(key string, value string, parameters map[string]string
 		key,
 	)
 
-	httpClient := HTTP{}
+	httpClient := NewHTTPClient()
 
 	response, err := httpClient.Post(endpoint, value, parameters, map[string]string{})
 
@@ -157,7 +157,7 @@ func (c *ConsulKv) Delete(key string, parameters map[string]string) (string, err
 		key,
 	)
 
-	httpClient := HTTP{}
+	httpClient := NewHTTPClient()
 
 	response, err := httpClient.Get(endpoint, parameters, map[string]string{})
 

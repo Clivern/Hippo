@@ -13,7 +13,7 @@
 
 Hippo is a collection of well crafted go packages that help you build robust, reliable, maintainable microservices. It is not a full-fledged framework with lot of magic, predefined architecture, specific patterns and bullshit opinions so you will be the one behind the wheel.
 
-It provides libraries to implement components for service discovery, async jobs, authentication, authorization, logging, caching, metrics, tracing, rate-limiting...etc which are essential requirements for running microservices in production. 
+It provides libraries to implement components for service discovery, async jobs, authentication, authorization, logging, caching, metrics, tracing, rate-limiting...etc which are essential requirements for running microservices in production.
 
 ## Documentation
 
@@ -30,7 +30,49 @@ import (
 
 ### Components:
 
-To create correlation ID
+HTTP Requests Component
+
+```golang
+
+httpClient := hippo.NewHTTPClient()
+
+// Get Request
+response, error := httpClient.Get(
+    "https://httpbin.org/get",
+    map[string]string{"url_arg_key": "url_arg_value"},
+    map[string]string{"header_key": "header_value"},
+)
+
+// Delete Request
+response, error := httpClient.Delete(
+    "https://httpbin.org/delete",
+    map[string]string{"url_arg_key": "url_arg_value"},
+    map[string]string{"header_key": "header_value"},
+)
+
+// Post Request
+response, error := httpClient.Post(
+    "https://httpbin.org/post",
+    `{"RequestBodyKey":"RequestBodyValue"}`,
+    map[string]string{"url_arg_key": "url_arg_value"},
+    map[string]string{"header_key": "header_value"},
+)
+
+// Put Request
+response, error := httpClient.Put(
+    "https://httpbin.org/put",
+    `{"RequestBodyKey":"RequestBodyValue"}`,
+    map[string]string{"url_arg_key": "url_arg_value"},
+    map[string]string{"header_key": "header_value"},
+)
+
+// ....
+
+statusCode := httpClient.GetStatusCode(response)
+responseBody, error := httpClient.ToString(response)
+```
+
+Correlation ID Component
 
 ```golang
 correlation := hippo.NewCorrelation()
