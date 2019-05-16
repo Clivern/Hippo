@@ -9,19 +9,30 @@ import (
 	"github.com/satori/go.uuid"
 )
 
+// Correlation interface
+type Correlation interface {
+	UUIDv4() string
+}
+
 // Correlation struct
-type Correlation struct {
+type correlation struct {
+}
+
+// NewCorrelation creates an instance of correlation struct
+func NewCorrelation() Correlation {
+	c := &correlation{}
+	return c
 }
 
 // UUIDv4 create a UUID version 4
-func (c *Correlation) UUIDv4() string {
+func (c *correlation) UUIDv4() string {
 	u := uuid.Must(uuid.NewV4(), nil)
 	return u.String()
 }
 
 // ExampleUUIDv4 example for UUIDv4 method
 func ExampleUUIDv4() {
-	c := Correlation{}
+	c := NewCorrelation()
 	fmt.Println(c.UUIDv4() != "")
 	// Output: true
 }
