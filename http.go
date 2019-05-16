@@ -6,18 +6,34 @@ package hippo
 
 import (
 	"bytes"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 )
 
-// HTTP struct
-type HTTP struct {
+// HTTPClient interface
+type HTTPClient interface {
+	Get(endpoint string, parameters map[string]string, headers map[string]string) (*http.Response, error)
+	Post(endpoint string, data string, parameters map[string]string, headers map[string]string) (*http.Response, error)
+	Put(endpoint string, data string, parameters map[string]string, headers map[string]string) (*http.Response, error)
+	Delete(endpoint string, parameters map[string]string, headers map[string]string) (*http.Response, error)
+	BuildParameters(endpoint string, parameters map[string]string) (string, error)
+	ToString(response *http.Response) (string, error)
+	GetStatusCode(response *http.Response) int
+}
+
+// httpClient struct
+type httpClient struct {
+}
+
+// NewHTTPClient creates an instance of http client
+func NewHTTPClient() HTTPClient {
+	httpClient := &httpClient{}
+	return httpClient
 }
 
 // Get http call
-func (h *HTTP) Get(endpoint string, parameters map[string]string, headers map[string]string) (*http.Response, error) {
+func (h *httpClient) Get(endpoint string, parameters map[string]string, headers map[string]string) (*http.Response, error) {
 
 	endpoint, err := h.BuildParameters(endpoint, parameters)
 
@@ -43,7 +59,7 @@ func (h *HTTP) Get(endpoint string, parameters map[string]string, headers map[st
 }
 
 // Post http call
-func (h *HTTP) Post(endpoint string, data string, parameters map[string]string, headers map[string]string) (*http.Response, error) {
+func (h *httpClient) Post(endpoint string, data string, parameters map[string]string, headers map[string]string) (*http.Response, error) {
 
 	endpoint, err := h.BuildParameters(endpoint, parameters)
 
@@ -69,7 +85,7 @@ func (h *HTTP) Post(endpoint string, data string, parameters map[string]string, 
 }
 
 // Put http call
-func (h *HTTP) Put(endpoint string, data string, parameters map[string]string, headers map[string]string) (*http.Response, error) {
+func (h *httpClient) Put(endpoint string, data string, parameters map[string]string, headers map[string]string) (*http.Response, error) {
 
 	endpoint, err := h.BuildParameters(endpoint, parameters)
 
@@ -95,7 +111,7 @@ func (h *HTTP) Put(endpoint string, data string, parameters map[string]string, h
 }
 
 // Delete http call
-func (h *HTTP) Delete(endpoint string, parameters map[string]string, headers map[string]string) (*http.Response, error) {
+func (h *httpClient) Delete(endpoint string, parameters map[string]string, headers map[string]string) (*http.Response, error) {
 
 	endpoint, err := h.BuildParameters(endpoint, parameters)
 
@@ -121,7 +137,7 @@ func (h *HTTP) Delete(endpoint string, parameters map[string]string, headers map
 }
 
 // BuildParameters add parameters to URL
-func (h *HTTP) BuildParameters(endpoint string, parameters map[string]string) (string, error) {
+func (h *httpClient) BuildParameters(endpoint string, parameters map[string]string) (string, error) {
 	u, err := url.Parse(endpoint)
 
 	if err != nil {
@@ -139,7 +155,7 @@ func (h *HTTP) BuildParameters(endpoint string, parameters map[string]string) (s
 }
 
 // ToString response body to string
-func (h *HTTP) ToString(response *http.Response) (string, error) {
+func (h *httpClient) ToString(response *http.Response) (string, error) {
 	defer response.Body.Close()
 
 	body, err := ioutil.ReadAll(response.Body)
@@ -152,22 +168,6 @@ func (h *HTTP) ToString(response *http.Response) (string, error) {
 }
 
 // GetStatusCode response status code
-func (h *HTTP) GetStatusCode(response *http.Response) int {
+func (h *httpClient) GetStatusCode(response *http.Response) int {
 	return response.StatusCode
-}
-
-// ExampleGet example for Get method
-func ExampleGet() {
-	http := HTTP{}
-	respObj, _ := http.Get("https://httpbin.org/get", map[string]string{}, map[string]string{"X-AUTH-Token": "123"})
-	fmt.Println(http.GetStatusCode(respObj))
-	// Output: 200
-}
-
-// ExampleDelete example for Delete method
-func ExampleDelete() {
-	http := HTTP{}
-	respObj, _ := http.Delete("https://httpbin.org/delete", map[string]string{}, map[string]string{"X-AUTH-Token": "123"})
-	fmt.Println(http.GetStatusCode(respObj))
-	// Output: 200
 }
