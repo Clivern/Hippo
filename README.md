@@ -72,6 +72,33 @@ statusCode := httpClient.GetStatusCode(response)
 responseBody, error := httpClient.ToString(response)
 ```
 
+Time Series Component
+
+```golang
+import "time"
+
+
+metric := hippo.NewMetric("hippo1.up", "23", time.Now().Unix()) // Type is hippo.Metric
+
+metrics := NewMetrics("hippo2.up", "35", time.Now().Unix()) // type is []hippo.Metric
+metrics = append(metrics, NewMetric("hippo2.down", "40", time.Now().Unix()))
+metrics = append(metrics, NewMetric("hippo2.error", "70", time.Now().Unix()))
+
+// NewGraphite(protocol string, host string, port int, prefix string)
+// protocol can be tcp, udp or nop
+// prefix is a metric prefix
+graphite := hippo.NewGraphite("tcp", "127.0.0.1", 2003, "")
+error := graphite.Connect()
+
+if error == nil{
+    // send one by one
+    graphite.SendMetric(metric)
+
+    // bulk send
+    graphite.SendMetrics(metrics)
+}
+````
+
 Correlation ID Component
 
 ```golang
