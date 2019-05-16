@@ -19,7 +19,7 @@ const defaultTimeout = 5
 type TimeSeries interface {
 	Connect() error
 	Disconnect() error
-	sendMetrics(metrics []Metric) error
+	SendMetrics(metrics []Metric) error
 	SendMetric(metric Metric) error
 	IsNop() bool
 }
@@ -53,12 +53,25 @@ func (metric Metric) String() string {
 }
 
 // NewMetric creates a new metric
-func NewMetric(name, value string, timestamp int64) *Metric {
-	return &Metric{
+func NewMetric(name, value string, timestamp int64) Metric {
+	return Metric{
 		Name:      name,
 		Value:     value,
 		Timestamp: timestamp,
 	}
+}
+
+// NewMetrics creates a new metrics array
+func NewMetrics(name, value string, timestamp int64) []Metric {
+	var metrics []Metric
+
+	metric := Metric{
+		Name:      name,
+		Value:     value,
+		Timestamp: timestamp,
+	}
+	metrics = append(metrics, metric)
+	return metrics
 }
 
 // NewGraphite create instance of graphite
@@ -118,11 +131,11 @@ func (graphite *graphiteClient) SendMetric(metric Metric) error {
 	metrics := make([]Metric, 1)
 	metrics[0] = metric
 
-	return graphite.sendMetrics(metrics)
+	return graphite.SendMetrics(metrics)
 }
 
-// sendMetrics sends metrics to graphite
-func (graphite *graphiteClient) sendMetrics(metrics []Metric) error {
+// SendMetrics sends metrics to graphite
+func (graphite *graphiteClient) SendMetrics(metrics []Metric) error {
 	if graphite.IsNop() {
 		for _, metric := range metrics {
 			log.Printf("Graphite: %s\n", metric)
