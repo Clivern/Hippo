@@ -14,7 +14,7 @@ import (
 // TestRedis test cases
 func TestRedis(t *testing.T) {
 
-	driver := NewRedisDriver("10.11.120.60:7001", "", 0)
+	driver := NewRedisDriver("localhost:6379", "", 0)
 
 	ok, err := driver.Connect()
 	st.Expect(t, ok, true)
