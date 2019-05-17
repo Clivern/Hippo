@@ -115,6 +115,44 @@ correlation := hippo.NewCorrelation()
 correlation.UUIDv4()
 ```
 
+Workers Pool Component
+
+```golang
+import "fmt"
+
+tasks := []*Task{
+    NewTask(func() (string, error) {
+        fmt.Println("Task #1")
+        return "Result 1", nil
+    }),
+    NewTask(func() (string, error) {
+        fmt.Println("Task #2")
+        return "Result 2", nil
+    }),
+    NewTask(func() (string, error) {
+        fmt.Println("Task #3")
+        return "Result 3", nil
+    }),
+}
+
+p := NewWorkersPool(tasks, 2)
+p.Run()
+
+var numErrors int
+for _, task := range p.Tasks {
+    if task.Err != nil {
+        fmt.Println(task.Err)
+        numErrors++
+    } else {
+        fmt.Println(task.Result)
+    }
+    if numErrors >= 10 {
+        fmt.Println("Too many errors.")
+        break
+    }
+}
+````
+
 ## Versioning
 
 For transparency into our release cycle and in striving to maintain backward compatibility, Hippo is maintained under the [Semantic Versioning guidelines](https://semver.org/) and release process is predictable and business-friendly.
