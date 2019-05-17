@@ -120,22 +120,22 @@ Workers Pool Component
 ```golang
 import "fmt"
 
-tasks := []*Task{
-    NewTask(func() (string, error) {
+tasks := []*hippo.Task{
+    hippo.NewTask(func() (string, error) {
         fmt.Println("Task #1")
         return "Result 1", nil
     }),
-    NewTask(func() (string, error) {
+    hippo.NewTask(func() (string, error) {
         fmt.Println("Task #2")
         return "Result 2", nil
     }),
-    NewTask(func() (string, error) {
+    hippo.NewTask(func() (string, error) {
         fmt.Println("Task #3")
         return "Result 3", nil
     }),
 }
 
-p := NewWorkersPool(tasks, 2)
+p := hippo.NewWorkersPool(tasks, 2)
 p.Run()
 
 var numErrors int
