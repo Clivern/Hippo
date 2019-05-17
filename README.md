@@ -135,6 +135,7 @@ tasks := []*hippo.Task{
     }),
 }
 
+// hippo.NewWorkersPool(tasks []*Task, concurrency int) *WorkersPool
 p := hippo.NewWorkersPool(tasks, 2)
 p.Run()
 
