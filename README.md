@@ -99,6 +99,14 @@ if error == nil{
 }
 ````
 
+System Stats Component
+
+```golang
+stats := hippo.NewCorrelation()
+stats.GetStats() // type map[string]uint64
+// map[cpu.cgo_calls:0 cpu.goroutines:1 mem.alloc:0....]
+```
+
 Correlation ID Component
 
 ```golang
