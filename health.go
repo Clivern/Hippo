@@ -121,11 +121,6 @@ func (h *Health) RunChecks() {
 	}
 }
 
-// MySQLCheck do a mysql health check
-func MySQLCheck() (bool, error) {
-	return true, nil
-}
-
 // HTTPCheck do HTTP health check
 func HTTPCheck(serviceName, URL string, parameters map[string]string, headers map[string]string) (bool, error) {
 	httpClient := NewHTTPClient()
@@ -143,11 +138,6 @@ func HTTPCheck(serviceName, URL string, parameters map[string]string, headers ma
 		return false, fmt.Errorf("Service %s is unavailable", serviceName)
 	}
 
-	return true, nil
-}
-
-// IOCheck do IO health check
-func IOCheck() (bool, error) {
 	return true, nil
 }
 
