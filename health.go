@@ -6,7 +6,6 @@ package hippo
 
 import (
 	"encoding/json"
-	"fmt"
 )
 
 const (
