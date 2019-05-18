@@ -9,11 +9,15 @@ import (
 )
 
 const (
-	ServiceUp      = "UP"
-	ServiceDown    = "DOWN"
+	// ServiceUp const
+	ServiceUp = "UP"
+	// ServiceDown const
+	ServiceDown = "DOWN"
+	// ServiceUnknown const
 	ServiceUnknown = "UNKNOWN"
 )
 
+// Check struct
 type Check struct {
 	ID       string `json:"id"`
 	Status   string `json:"status"`
@@ -22,6 +26,7 @@ type Check struct {
 	callable func() (bool, error)
 }
 
+// Health struct
 type Health struct {
 	Status string
 	Checks []*Check
