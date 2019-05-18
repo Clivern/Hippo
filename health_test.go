@@ -43,3 +43,14 @@ func TestHealthCheck(t *testing.T) {
 	st.Expect(t, healthChecker.IsUp(), true)
 
 }
+
+// TestHTTPCheck test cases
+func TestHTTPCheck(t *testing.T) {
+	healthy, error := HTTPCheck("httpbin", "https://httpbin.org/status/503")
+	st.Expect(t, healthy, false)
+	st.Expect(t, error.Error(), "Service httpbin is unavailable")
+
+	healthy, error = HTTPCheck("httpbin", "https://httpbin.org/status/200")
+	st.Expect(t, healthy, true)
+	st.Expect(t, error, nil)
+}

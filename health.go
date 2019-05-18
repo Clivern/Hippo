@@ -6,6 +6,8 @@ package hippo
 
 import (
 	"encoding/json"
+	"fmt"
+	"net/http"
 )
 
 const (
@@ -117,4 +119,40 @@ func (h *Health) RunChecks() {
 	} else {
 		h.Up()
 	}
+}
+
+// MySQLCheck do a mysql health check
+func MySQLCheck() (bool, error) {
+	return true, nil
+}
+
+// HTTPCheck do HTTP health check
+func HTTPCheck(serviceName, URL string) (bool, error) {
+
+	httpClient := NewHTTPClient()
+	response, error := httpClient.Get(
+		URL,
+		map[string]string{},
+		map[string]string{},
+	)
+
+	if error != nil {
+		return false, error
+	}
+
+	if httpClient.GetStatusCode(response) == http.StatusServiceUnavailable {
+		return false, fmt.Errorf("Service %s is unavailable", serviceName)
+	}
+
+	return true, nil
+}
+
+// IOCheck do IO health check
+func IOCheck() (bool, error) {
+	return true, nil
+}
+
+// RedisCheck do a redis health check
+func RedisCheck() (bool, error) {
+	return true, nil
 }
