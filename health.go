@@ -152,6 +152,19 @@ func IOCheck() (bool, error) {
 }
 
 // RedisCheck do a redis health check
-func RedisCheck() (bool, error) {
-	return true, nil
+func RedisCheck(serviceName string, addr string, password string, db int) (bool, error) {
+	redisDriver := NewRedisDriver(addr, password, db)
+	_, err := redisDriver.Connect()
+
+	if err != nil {
+		return false, fmt.Errorf("Error while connecting %s: %s", serviceName, err.Error())
+	}
+
+	status, err := redisDriver.Ping()
+
+	if err != nil {
+		return false, fmt.Errorf("Error while connecting %s: %s", serviceName, err.Error())
+	}
+
+	return status, nil
 }

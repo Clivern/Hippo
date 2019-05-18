@@ -54,3 +54,10 @@ func TestHTTPCheck(t *testing.T) {
 	st.Expect(t, healthy, true)
 	st.Expect(t, error, nil)
 }
+
+// TestRedisCheck test cases
+func TestRedisCheck(t *testing.T) {
+	healthy, error := RedisCheck("redis", "localhost:6379", "", 0)
+	st.Expect(t, healthy, true)
+	st.Expect(t, error, nil)
+}
