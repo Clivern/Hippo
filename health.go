@@ -128,7 +128,6 @@ func MySQLCheck() (bool, error) {
 
 // HTTPCheck do HTTP health check
 func HTTPCheck(serviceName, URL string) (bool, error) {
-
 	httpClient := NewHTTPClient()
 	response, error := httpClient.Get(
 		URL,
