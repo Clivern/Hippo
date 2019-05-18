@@ -154,6 +154,24 @@ for _, task := range p.Tasks {
 }
 ````
 
+**Health Checker Component**
+
+```golang
+healthChecker := hippo.NewHealthChecker()
+healthChecker.AddCheck("ping_check", func() (bool, error){
+    return true, nil
+})
+healthChecker.AddCheck("db_check", func() (bool, error){
+    return false, fmt.Errorf("Database Down")
+})
+healthChecker.RunChecks()
+
+fmt.Println(healthChecker.ChecksStatus())
+// Output -> DOWN
+fmt.Println(healthChecker.ChecksReport())
+// Output -> [{"id":"ping_check","status":"UP","error":"","result":true},{"id":"db_check","status":"DOWN","error":"Database Down","result":false}] <nil>
+```
+
 ## Versioning
 
 For transparency into our release cycle and in striving to maintain backward compatibility, Hippo is maintained under the [Semantic Versioning guidelines](https://semver.org/) and release process is predictable and business-friendly.
