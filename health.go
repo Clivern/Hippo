@@ -127,12 +127,12 @@ func MySQLCheck() (bool, error) {
 }
 
 // HTTPCheck do HTTP health check
-func HTTPCheck(serviceName, URL string) (bool, error) {
+func HTTPCheck(serviceName, URL string, parameters map[string]string, headers map[string]string) (bool, error) {
 	httpClient := NewHTTPClient()
 	response, error := httpClient.Get(
 		URL,
-		map[string]string{},
-		map[string]string{},
+		parameters,
+		headers,
 	)
 
 	if error != nil {
