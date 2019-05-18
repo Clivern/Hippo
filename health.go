@@ -6,6 +6,8 @@ package hippo
 
 import (
 	"encoding/json"
+	"fmt"
+	"net/http"
 )
 
 const (
@@ -117,4 +119,42 @@ func (h *Health) RunChecks() {
 	} else {
 		h.Up()
 	}
+}
+
+// HTTPCheck do HTTP health check
+func HTTPCheck(serviceName, URL string, parameters map[string]string, headers map[string]string) (bool, error) {
+	httpClient := NewHTTPClient()
+	response, error := httpClient.Get(
+		URL,
+		parameters,
+		headers,
+	)
+
+	if error != nil {
+		return false, error
+	}
+
+	if httpClient.GetStatusCode(response) == http.StatusServiceUnavailable {
+		return false, fmt.Errorf("Service %s is unavailable", serviceName)
+	}
+
+	return true, nil
+}
+
+// RedisCheck do a redis health check
+func RedisCheck(serviceName string, addr string, password string, db int) (bool, error) {
+	redisDriver := NewRedisDriver(addr, password, db)
+	_, err := redisDriver.Connect()
+
+	if err != nil {
+		return false, fmt.Errorf("Error while connecting %s: %s", serviceName, err.Error())
+	}
+
+	status, err := redisDriver.Ping()
+
+	if err != nil {
+		return false, fmt.Errorf("Error while connecting %s: %s", serviceName, err.Error())
+	}
+
+	return status, nil
 }
