@@ -72,6 +72,47 @@ statusCode := httpClient.GetStatusCode(response)
 responseBody, error := httpClient.ToString(response)
 ```
 
+**Cache/Redis Component**
+
+```golang
+driver := NewRedisDriver("localhost:6379", "password", 0)
+
+// connect to redis server
+ok, err := driver.Connect()
+// ping check
+ok, err = driver.Ping()
+
+// set an item
+ok, err = driver.Set("app_name", "Hippo", 0)
+// check if exists
+ok, err = driver.Exists("app_name")
+// get value
+value, err := driver.Get("app_name")
+// delete an item
+count, err := driver.Del("app_name")
+
+// hash set
+ok, err = driver.HSet("configs", "app_name", "Hippo")
+// check if item on a hash
+ok, err = driver.HExists("configs", "app_name")
+// get item from a hash
+value, err = driver.HGet("configs", "app_name")
+// hash length
+count, err = driver.HLen("configs")
+// delete item from a hash
+count, err = driver.HDel("configs", "app_name")
+// clear the hash
+count, err = driver.HTruncate("configs")
+
+// Pub/Sub
+driver.Publish("hippo", "Hello")
+driver.Subscribe("hippo", func(message Message) error {
+    // message.Channel
+    // message.Payload
+    return nil
+})
+```
+
 **Time Series/Graphite Component**
 
 ```golang
