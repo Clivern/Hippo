@@ -157,6 +157,8 @@ for _, task := range p.Tasks {
 **Health Checker Component**
 
 ```golang
+import "fmt"
+
 healthChecker := hippo.NewHealthChecker()
 healthChecker.AddCheck("ping_check", func() (bool, error){
     return true, nil
@@ -170,6 +172,24 @@ fmt.Println(healthChecker.ChecksStatus())
 // Output -> DOWN
 fmt.Println(healthChecker.ChecksReport())
 // Output -> [{"id":"ping_check","status":"UP","error":"","result":true},{"id":"db_check","status":"DOWN","error":"Database Down","result":false}] <nil>
+```
+```golang
+import "fmt"
+
+healthChecker := hippo.NewHealthChecker()
+
+healthChecker.AddCheck("url_check", func() (bool, error){
+    return hippo.HTTPCheck("httpbin_service", "https://httpbin.org/status/503", map[string]string{}, map[string]string{})
+})
+healthChecker.AddCheck("redis_check", func() (bool, error){
+    return hippo.RedisCheck("redis_service", "localhost:6379", "", 0)
+})
+healthChecker.RunChecks()
+
+fmt.Println(healthChecker.ChecksStatus())
+// Outputs -> DOWN
+fmt.Println(healthChecker.ChecksReport())
+// Outputs -> [{"id":"url_check","status":"DOWN","error":"Service httpbin_service is unavailable","result":false},{"id":"redis_check","status":"DOWN","error":"Error while connecting redis_service: dial tcp [::1]:6379: connect: connection refused","result":false}] <nil>
 ```
 
 ## Versioning
