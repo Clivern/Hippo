@@ -31,7 +31,7 @@ func NewCallerLimiter(identifier string, eventsRate rate.Limit, tokenBurst int) 
 		return addCaller(identifier, eventsRate, tokenBurst)
 	}
 
-	// Update the last seen time for the visitor.
+	// Update the last seen time for the caller.
 	v.lastSeen = time.Now()
 	mtx.Unlock()
 	return v.limiter
@@ -41,7 +41,7 @@ func NewCallerLimiter(identifier string, eventsRate rate.Limit, tokenBurst int) 
 func addCaller(identifier string, eventsRate rate.Limit, tokenBurst int) *rate.Limiter {
 	limiter := rate.NewLimiter(eventsRate, tokenBurst)
 	mtx.Lock()
-	// Include the current time when creating a new visitor.
+	// Include the current time when creating a new caller.
 	callers[identifier] = &caller{limiter, time.Now()}
 	mtx.Unlock()
 
