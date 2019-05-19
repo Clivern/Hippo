@@ -233,6 +233,33 @@ fmt.Println(healthChecker.ChecksReport())
 // Outputs -> [{"id":"url_check","status":"DOWN","error":"Service httpbin_service is unavailable","result":false},{"id":"redis_check","status":"DOWN","error":"Error while connecting redis_service: dial tcp [::1]:6379: connect: connection refused","result":false}] <nil>
 ```
 
+**API Rate Limiting**
+
+```golang
+
+import "time"
+
+// Create a limiter with a specific identifier(IP address or access token or username....etc)
+// NewCallerLimiter(identifier string, eventsRate rate.Limit, tokenBurst int) *rate.Limiter
+limiter := hippo.NewCallerLimiter("10.10.10.10", 100, 1)
+if limiter.Allow() == false {
+    // Don't allow access
+} else {
+    // Allow Access
+}
+
+
+// auto clean old clients (should run as background process)
+// CleanupCallers(cleanAfter time.Duration)
+go func(){
+    for {
+        time.Sleep(60 * time.Second)
+        hippo.CleanupCallers(60)
+    }
+}()
+
+```
+
 ## Versioning
 
 For transparency into our release cycle and in striving to maintain backward compatibility, Hippo is maintained under the [Semantic Versioning guidelines](https://semver.org/) and release process is predictable and business-friendly.
