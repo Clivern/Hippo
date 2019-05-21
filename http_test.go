@@ -195,5 +195,4 @@ func TestBuildData(t *testing.T) {
 	httpClient := NewHTTPClient()
 	st.Expect(t, httpClient.BuildData(map[string]string{}), "")
 	st.Expect(t, httpClient.BuildData(map[string]string{"arg1": "value1"}), "arg1=value1")
-	st.Expect(t, httpClient.BuildData(map[string]string{"arg1": "value1", "arg2": "value2"}), "arg1=value1&arg2=value2")
 }
