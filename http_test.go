@@ -189,3 +189,11 @@ func TestBuildParameters(t *testing.T) {
 	st.Expect(t, "http://127.0.0.1?arg1=value1", url)
 	st.Expect(t, nil, error)
 }
+
+// TestBuildData test cases
+func TestBuildData(t *testing.T) {
+	httpClient := NewHTTPClient()
+	st.Expect(t, httpClient.BuildData(map[string]string{}), "")
+	st.Expect(t, httpClient.BuildData(map[string]string{"arg1": "value1"}), "arg1=value1")
+	st.Expect(t, httpClient.BuildData(map[string]string{"arg1": "value1", "arg2": "value2"}), "arg1=value1&arg2=value2")
+}

@@ -6,9 +6,11 @@ package hippo
 
 import (
 	"bytes"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"strings"
 )
 
 // HTTPClient interface
@@ -19,6 +21,7 @@ type HTTPClient interface {
 	Delete(endpoint string, parameters map[string]string, headers map[string]string) (*http.Response, error)
 	BuildParameters(endpoint string, parameters map[string]string) (string, error)
 	ToString(response *http.Response) (string, error)
+	BuildData(parameters map[string]string) string
 	GetStatusCode(response *http.Response) int
 }
 
@@ -152,6 +155,17 @@ func (h *httpClient) BuildParameters(endpoint string, parameters map[string]stri
 	u.RawQuery = q.Encode()
 
 	return u.String(), nil
+}
+
+// BuildData build body data
+func (h *httpClient) BuildData(parameters map[string]string) string {
+	var items []string
+
+	for k, v := range parameters {
+		items = append(items, fmt.Sprintf("%s=%s", k, v))
+	}
+
+	return strings.Join(items, "&")
 }
 
 // ToString response body to string
