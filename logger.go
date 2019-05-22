@@ -5,23 +5,35 @@
 package hippo
 
 import (
+	"encoding/json"
+	"fmt"
 	"go.uber.org/zap"
 )
 
-// Logger struct
-type Logger struct {
-	Driver string
-}
+// NewLogger returns a logger instance
+func NewLogger(level, encoding string, outputPaths []string) (*zap.Logger, error) {
+	cfg := zap.NewProductionConfig()
 
-// New returns a logger instance
-func (l *Logger) New() (*zap.Logger, error) {
-	return zap.NewProduction()
-}
+	rawJSON := []byte(fmt.Sprintf(`{
+      		"level": "%s",
+      		"encoding": "%s",
+      		"outputPaths": []
+    	}`, level, encoding))
 
-// Info logs info message
-func (l *Logger) Info(v ...interface{}) {
-	logger, _ := l.New()
-	defer logger.Sync()
-	sugar := logger.Sugar()
-	sugar.Info(v...)
+	err := json.Unmarshal(rawJSON, &cfg)
+
+	if err != nil {
+		panic(err)
+	}
+
+	cfg.Encoding = encoding
+	cfg.OutputPaths = outputPaths
+
+	logger, err := cfg.Build()
+
+	if err != nil {
+		panic(err)
+	}
+
+	return logger, nil
 }
