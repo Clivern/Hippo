@@ -257,7 +257,19 @@ go func(){
         hippo.CleanupCallers(60)
     }
 }()
+```
 
+**Logger Component**
+
+```golang
+logger, _ := hippo.NewLogger("debug", "json", []string{"stdout", "/var/log/error.log"})
+
+logger.Info("Hello World!")
+logger.Debug("Hello World!")
+logger.Warn("Hello World!")
+logger.Error("Hello World!")
+
+defer logger.Sync()
 ```
 
 ## Versioning
