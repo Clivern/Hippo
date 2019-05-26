@@ -5,7 +5,6 @@
 package hippo
 
 import (
-	"fmt"
 	"github.com/satori/go.uuid"
 )
 
@@ -28,11 +27,4 @@ func NewCorrelation() Correlation {
 func (c *correlation) UUIDv4() string {
 	u := uuid.Must(uuid.NewV4(), nil)
 	return u.String()
-}
-
-// ExampleUUIDv4 example for UUIDv4 method
-func ExampleUUIDv4() {
-	c := NewCorrelation()
-	fmt.Println(c.UUIDv4() != "")
-	// Output: true
 }
