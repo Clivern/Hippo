@@ -5,7 +5,7 @@
     <p align="center">
         <a href="https://godoc.org/github.com/clivern/hippo"><img src="https://godoc.org/github.com/clivern/hippo?status.svg"></a>
         <a href="https://travis-ci.org/Clivern/Hippo"><img src="https://travis-ci.org/Clivern/Hippo.svg?branch=master"></a>
-        <a href="https://github.com/Clivern/Hippo/releases"><img src="https://img.shields.io/badge/Version-1.4.0-red.svg"></a>
+        <a href="https://github.com/Clivern/Hippo/releases"><img src="https://img.shields.io/badge/Version-1.5.0-red.svg"></a>
         <a href="https://goreportcard.com/report/github.com/Clivern/Hippo"><img src="https://goreportcard.com/badge/github.com/Clivern/Hippo?v=1.0.0"></a>
         <a href="https://github.com/Clivern/Hippo/blob/master/LICENSE"><img src="https://img.shields.io/badge/LICENSE-MIT-orange.svg"></a>
     </p>
@@ -284,28 +284,32 @@ exists := hippo.DirExists("/var/log")
 ** Latency Tracker Component**
 
 ```golang
+httpClient := hippo.NewHTTPClient()
+
+latency := NewLatencyTracker()
+latency.NewAction("api.call")
+
+// First HTTP Call
 start := time.Now()
-latency := hippo.NewLatencyTracker()
+httpClient.Get(
+    "https://httpbin.org/get",
+    map[string]string{},
+    map[string]string{},
+)
+latency.SetPoint("api.call", start, time.Now())
 
-latency.NewAction("api.action1")
-latency.SetStart("api.action1", time.Now())
-for i := 0; i < 10; i++ {
-    time.Sleep(100 * time.Millisecond)
-    // Add start & end on two setps
-    latency.SetStart("api.action1", start)
-    latency.SetEnd("api.action1", time.Now())
-}
-fmt.Println(latency)
+// Another HTTP Call
+latency.SetStart("api.call", time.Now())
+httpClient.Get(
+    "https://httpbin.org/get",
+    map[string]string{},
+    map[string]string{},
+)
+latency.SetEnd("api.call", time.Now())
 
-
-latency2 := hippo.NewLatencyTracker()
-latency2.NewAction("api.action2")
-for i := 0; i < 10; i++ {
-    time.Sleep(100 * time.Millisecond)
-    // Add start & end on one setp
-    latency2.SetPoint("api.action2", start, time.Now())
-}
-fmt.Println(latency2)
+// Now it will calculate the average
+fmt.Println(latency.GetLatency("api.call"))
+// Output 486.217112ms <nil>
 ```
 
 

@@ -5,6 +5,7 @@
 package hippo
 
 import (
+	"fmt"
 	"time"
 )
 
@@ -67,4 +68,27 @@ func (l *Latency) SetEnd(name string, end time.Time) bool {
 	l.Actions[name][length-1].End = end
 
 	return true
+}
+
+// GetLatency returns average latency in nanoseconds for specific action
+func (l *Latency) GetLatency(name string) (time.Duration, error) {
+	var total time.Duration
+
+	for _, v := range l.Actions[name] {
+		total += v.GetLatency()
+	}
+
+	result := total.Nanoseconds() / int64(len(l.Actions[name]))
+	timeDuration, err := time.ParseDuration(fmt.Sprintf("%dns", result))
+
+	if err != nil {
+		return time.Duration(0), err
+	}
+
+	return timeDuration, nil
+}
+
+// GetLatency returns latency in nanoseconds
+func (p *Point) GetLatency() time.Duration {
+	return p.End.Sub(p.Start)
 }
