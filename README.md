@@ -281,6 +281,34 @@ exists := hippo.FileExists("/var/log/error.log")
 exists := hippo.DirExists("/var/log")
 ```
 
+** Latency Tracker Component**
+
+```golang
+start := time.Now()
+latency := hippo.NewLatencyTracker()
+
+latency.NewAction("api.action1")
+latency.SetStart("api.action1", time.Now())
+for i := 0; i < 10; i++ {
+    time.Sleep(100 * time.Millisecond)
+    // Add start & end on two setps
+    latency.SetStart("api.action1", start)
+    latency.SetEnd("api.action1", time.Now())
+}
+fmt.Println(latency)
+
+
+latency2 := hippo.NewLatencyTracker()
+latency2.NewAction("api.action2")
+for i := 0; i < 10; i++ {
+    time.Sleep(100 * time.Millisecond)
+    // Add start & end on one setp
+    latency2.SetPoint("api.action2", start, time.Now())
+}
+fmt.Println(latency2)
+```
+
+
 ## Versioning
 
 For transparency into our release cycle and in striving to maintain backward compatibility, Hippo is maintained under the [Semantic Versioning guidelines](https://semver.org/) and release process is predictable and business-friendly.
