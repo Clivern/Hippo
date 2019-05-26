@@ -281,7 +281,7 @@ exists := hippo.FileExists("/var/log/error.log")
 exists := hippo.DirExists("/var/log")
 ```
 
-** Latency Tracker Component**
+**Latency Tracker Component**
 
 ```golang
 httpClient := hippo.NewHTTPClient()
