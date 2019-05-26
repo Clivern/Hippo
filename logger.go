@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"go.uber.org/zap"
+	"os"
 )
 
 // NewLogger returns a logger instance
@@ -36,4 +37,32 @@ func NewLogger(level, encoding string, outputPaths []string) (*zap.Logger, error
 	}
 
 	return logger, nil
+}
+
+// PathExists reports whether the path exists
+func PathExists(path string) bool {
+	if _, err := os.Stat(path); os.IsNotExist(err) {
+		return false
+	}
+	return true
+}
+
+// FileExists reports whether the named file exists
+func FileExists(path string) bool {
+	if fi, err := os.Stat(path); err == nil {
+		if fi.Mode().IsRegular() {
+			return true
+		}
+	}
+	return false
+}
+
+// DirExists reports whether the dir exists
+func DirExists(path string) bool {
+	if fi, err := os.Stat(path); err == nil {
+		if fi.Mode().IsDir() {
+			return true
+		}
+	}
+	return false
 }

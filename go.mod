@@ -1,5 +1,7 @@
 module github.com/clivern/hippo
 
+go 1.12
+
 require (
 	github.com/go-redis/redis v6.15.2+incompatible
 	github.com/nbio/st v0.0.0-20140626010706-e9e8d9816f32

@@ -5,7 +5,7 @@
     <p align="center">
         <a href="https://godoc.org/github.com/clivern/hippo"><img src="https://godoc.org/github.com/clivern/hippo?status.svg"></a>
         <a href="https://travis-ci.org/Clivern/Hippo"><img src="https://travis-ci.org/Clivern/Hippo.svg?branch=master"></a>
-        <a href="https://github.com/Clivern/Hippo/releases"><img src="https://img.shields.io/badge/Version-1.3.0-red.svg"></a>
+        <a href="https://github.com/Clivern/Hippo/releases"><img src="https://img.shields.io/badge/Version-1.4.0-red.svg"></a>
         <a href="https://goreportcard.com/report/github.com/Clivern/Hippo"><img src="https://goreportcard.com/badge/github.com/Clivern/Hippo?v=1.0.0"></a>
         <a href="https://github.com/Clivern/Hippo/blob/master/LICENSE"><img src="https://img.shields.io/badge/LICENSE-MIT-orange.svg"></a>
     </p>
@@ -270,6 +270,15 @@ logger.Warn("Hello World!")
 logger.Error("Hello World!")
 
 defer logger.Sync()
+
+// check if path exists
+exists := hippo.PathExists("/var/log")
+
+// check if file exists
+exists := hippo.FileExists("/var/log/error.log")
+
+// check if dir exists
+exists := hippo.DirExists("/var/log")
 ```
 
 ## Versioning
