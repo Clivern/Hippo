@@ -37,21 +37,21 @@ import (
 httpClient := hippo.NewHTTPClient()
 
 // Get Request
-response, error := httpClient.Get(
+response, err := httpClient.Get(
     "https://httpbin.org/get",
     map[string]string{"url_arg_key": "url_arg_value"},
     map[string]string{"header_key": "header_value"},
 )
 
 // Delete Request
-response, error := httpClient.Delete(
+response, err := httpClient.Delete(
     "https://httpbin.org/delete",
     map[string]string{"url_arg_key": "url_arg_value"},
     map[string]string{"header_key": "header_value"},
 )
 
 // Post Request
-response, error := httpClient.Post(
+response, err := httpClient.Post(
     "https://httpbin.org/post",
     `{"RequestBodyKey":"RequestBodyValue"}`,
     map[string]string{"url_arg_key": "url_arg_value"},
@@ -59,7 +59,7 @@ response, error := httpClient.Post(
 )
 
 // Put Request
-response, error := httpClient.Put(
+response, err := httpClient.Put(
     "https://httpbin.org/put",
     `{"RequestBodyKey":"RequestBodyValue"}`,
     map[string]string{"url_arg_key": "url_arg_value"},
@@ -69,7 +69,7 @@ response, error := httpClient.Put(
 // ....
 
 statusCode := httpClient.GetStatusCode(response)
-responseBody, error := httpClient.ToString(response)
+responseBody, err := httpClient.ToString(response)
 ```
 
 **Cache/Redis Component**
