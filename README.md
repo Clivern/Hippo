@@ -75,7 +75,7 @@ responseBody, err := httpClient.ToString(response)
 **Cache/Redis Component**
 
 ```golang
-driver := NewRedisDriver("localhost:6379", "password", 0)
+driver := hippo.NewRedisDriver("localhost:6379", "password", 0)
 
 // connect to redis server
 ok, err := driver.Connect()
@@ -106,7 +106,7 @@ count, err = driver.HTruncate("configs")
 
 // Pub/Sub
 driver.Publish("hippo", "Hello")
-driver.Subscribe("hippo", func(message Message) error {
+driver.Subscribe("hippo", func(message hippo.Message) error {
     // message.Channel
     // message.Payload
     return nil
