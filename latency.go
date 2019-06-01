@@ -27,7 +27,10 @@ func NewLatencyTracker() *Latency {
 
 // NewAction creates a new action tracking bucket
 func (l *Latency) NewAction(name string) {
-	l.Actions = make(map[string][]Point)
+	if len(l.Actions) <= 0 {
+		l.Actions = make(map[string][]Point)
+	}
+
 	l.Actions[name] = []Point{}
 }
 
