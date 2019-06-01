@@ -286,7 +286,7 @@ exists := hippo.DirExists("/var/log")
 ```golang
 httpClient := hippo.NewHTTPClient()
 
-latency := NewLatencyTracker()
+latency := hippo.NewLatencyTracker()
 latency.NewAction("api.call")
 
 // First HTTP Call
