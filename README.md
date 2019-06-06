@@ -121,9 +121,9 @@ import "time"
 
 metric := hippo.NewMetric("hippo1.up", "23", time.Now().Unix()) // Type is hippo.Metric
 
-metrics := NewMetrics("hippo2.up", "35", time.Now().Unix()) // type is []hippo.Metric
-metrics = append(metrics, NewMetric("hippo2.down", "40", time.Now().Unix()))
-metrics = append(metrics, NewMetric("hippo2.error", "70", time.Now().Unix()))
+metrics := hippo.NewMetrics("hippo2.up", "35", time.Now().Unix()) // type is []hippo.Metric
+metrics = append(metrics, hippo.NewMetric("hippo2.down", "40", time.Now().Unix()))
+metrics = append(metrics, hippo.NewMetric("hippo2.error", "70", time.Now().Unix()))
 
 // NewGraphite(protocol string, host string, port int, prefix string)
 // protocol can be tcp, udp or nop
