@@ -66,3 +66,13 @@ func DirExists(path string) bool {
 	}
 	return false
 }
+
+// EnsureDir ensures that directory exists
+func EnsureDir(dirName string, mode int) (bool, error) {
+	err := os.MkdirAll(dirName, os.FileMode(mode))
+
+	if err == nil || os.IsExist(err) {
+		return true, nil
+	}
+	return false, err
+}
