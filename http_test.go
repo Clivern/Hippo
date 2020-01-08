@@ -5,16 +5,19 @@
 package hippo
 
 import (
-	"github.com/nbio/st"
+	"context"
 	"net/http"
 	"strings"
 	"testing"
+
+	"github.com/nbio/st"
 )
 
 // TestHttpGet test cases
 func TestHttpGet(t *testing.T) {
 	httpClient := NewHTTPClient()
 	response, error := httpClient.Get(
+		context.Background(),
 		"https://httpbin.org/get",
 		map[string]string{"arg1": "value1"},
 		map[string]string{"X-Auth": "hipp-123"},
@@ -37,6 +40,7 @@ func TestHttpGet(t *testing.T) {
 func TestHttpDelete(t *testing.T) {
 	httpClient := NewHTTPClient()
 	response, error := httpClient.Delete(
+		context.Background(),
 		"https://httpbin.org/delete",
 		map[string]string{"arg1": "value1"},
 		map[string]string{"X-Auth": "hipp-123"},
@@ -59,6 +63,7 @@ func TestHttpDelete(t *testing.T) {
 func TestHttpPost(t *testing.T) {
 	httpClient := NewHTTPClient()
 	response, error := httpClient.Post(
+		context.Background(),
 		"https://httpbin.org/post",
 		`{"Username":"admin", "Password":"12345"}`,
 		map[string]string{"arg1": "value1"},
@@ -86,6 +91,7 @@ func TestHttpPost(t *testing.T) {
 func TestHttpPut(t *testing.T) {
 	httpClient := NewHTTPClient()
 	response, error := httpClient.Put(
+		context.Background(),
 		"https://httpbin.org/put",
 		`{"Username":"admin", "Password":"12345"}`,
 		map[string]string{"arg1": "value1"},
@@ -113,6 +119,7 @@ func TestHttpPut(t *testing.T) {
 func TestHttpGetStatusCode1(t *testing.T) {
 	httpClient := NewHTTPClient()
 	response, error := httpClient.Get(
+		context.Background(),
 		"https://httpbin.org/status/200",
 		map[string]string{"arg1": "value1"},
 		map[string]string{"X-Auth": "hipp-123"},
@@ -131,6 +138,7 @@ func TestHttpGetStatusCode1(t *testing.T) {
 func TestHttpGetStatusCode2(t *testing.T) {
 	httpClient := NewHTTPClient()
 	response, error := httpClient.Get(
+		context.Background(),
 		"https://httpbin.org/status/500",
 		map[string]string{"arg1": "value1"},
 		map[string]string{"X-Auth": "hipp-123"},
@@ -149,6 +157,7 @@ func TestHttpGetStatusCode2(t *testing.T) {
 func TestHttpGetStatusCode3(t *testing.T) {
 	httpClient := NewHTTPClient()
 	response, error := httpClient.Get(
+		context.Background(),
 		"https://httpbin.org/status/404",
 		map[string]string{"arg1": "value1"},
 		map[string]string{"X-Auth": "hipp-123"},
@@ -167,6 +176,7 @@ func TestHttpGetStatusCode3(t *testing.T) {
 func TestHttpGetStatusCode4(t *testing.T) {
 	httpClient := NewHTTPClient()
 	response, error := httpClient.Get(
+		context.Background(),
 		"https://httpbin.org/status/201",
 		map[string]string{"arg1": "value1"},
 		map[string]string{"X-Auth": "hipp-123"},

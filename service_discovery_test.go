@@ -5,6 +5,7 @@
 package hippo
 
 import (
+	"context"
 	"fmt"
 	"github.com/nbio/st"
 	"io/ioutil"
@@ -41,7 +42,7 @@ func TestStatusGetRaftLeader(t *testing.T) {
 		Config: config,
 	}
 
-	body, error := status.GetRaftLeader(map[string]string{})
+	body, error := status.GetRaftLeader(context.Background(), map[string]string{})
 
 	t.Log(body)
 	t.Log(error)
@@ -77,7 +78,7 @@ func TestStatusListRaftPeers(t *testing.T) {
 		Config: config,
 	}
 
-	body, error := status.ListRaftPeers(map[string]string{})
+	body, error := status.ListRaftPeers(context.Background(), map[string]string{})
 
 	t.Log(body)
 	t.Log(error)
@@ -114,7 +115,7 @@ func TestKvRead(t *testing.T) {
 		Config: config,
 	}
 
-	body, error := kv.Read("key", map[string]string{})
+	body, error := kv.Read(context.Background(), "key", map[string]string{})
 
 	t.Log(body)
 	t.Log(error)
@@ -152,7 +153,7 @@ func TestKvUpdate(t *testing.T) {
 		Config: config,
 	}
 
-	body, error := kv.Update("key", "value", map[string]string{})
+	body, error := kv.Update(context.Background(), "key", "value", map[string]string{})
 
 	t.Log(body)
 	t.Log(error)
@@ -189,7 +190,7 @@ func TestKvDelete(t *testing.T) {
 		Config: config,
 	}
 
-	body, error := kv.Delete("key", map[string]string{})
+	body, error := kv.Delete(context.Background(), "key", map[string]string{})
 
 	t.Log(body)
 	t.Log(error)
