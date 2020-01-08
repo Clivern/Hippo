@@ -5,6 +5,7 @@
 package hippo
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -122,9 +123,10 @@ func (h *Health) RunChecks() {
 }
 
 // HTTPCheck do HTTP health check
-func HTTPCheck(serviceName, URL string, parameters map[string]string, headers map[string]string) (bool, error) {
+func HTTPCheck(ctx context.Context, serviceName, URL string, parameters map[string]string, headers map[string]string) (bool, error) {
 	httpClient := NewHTTPClient()
 	response, error := httpClient.Get(
+		ctx,
 		URL,
 		parameters,
 		headers,

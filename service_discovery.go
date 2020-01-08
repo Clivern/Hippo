@@ -5,6 +5,7 @@
 package hippo
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"strings"
@@ -27,7 +28,7 @@ type ConsulKv struct {
 }
 
 // GetRaftLeader returns the Raft leader for the datacenter in which the agent is running
-func (c *ConsulStatus) GetRaftLeader(parameters map[string]string) (string, error) {
+func (c *ConsulStatus) GetRaftLeader(ctx context.Context, parameters map[string]string) (string, error) {
 	endpoint := fmt.Sprintf(
 		"%s/%s/status/leader",
 		strings.TrimSuffix(c.Config.URL, "/"),
@@ -36,7 +37,7 @@ func (c *ConsulStatus) GetRaftLeader(parameters map[string]string) (string, erro
 
 	httpClient := NewHTTPClient()
 
-	response, err := httpClient.Get(endpoint, parameters, map[string]string{})
+	response, err := httpClient.Get(ctx, endpoint, parameters, map[string]string{})
 
 	if err != nil {
 		return "", err
@@ -56,7 +57,7 @@ func (c *ConsulStatus) GetRaftLeader(parameters map[string]string) (string, erro
 }
 
 // ListRaftPeers retrieves the Raft peers for the datacenter in which the the agent is running
-func (c *ConsulStatus) ListRaftPeers(parameters map[string]string) (string, error) {
+func (c *ConsulStatus) ListRaftPeers(ctx context.Context, parameters map[string]string) (string, error) {
 	endpoint := fmt.Sprintf(
 		"%s/%s/status/peers",
 		strings.TrimSuffix(c.Config.URL, "/"),
@@ -65,7 +66,7 @@ func (c *ConsulStatus) ListRaftPeers(parameters map[string]string) (string, erro
 
 	httpClient := NewHTTPClient()
 
-	response, err := httpClient.Get(endpoint, parameters, map[string]string{})
+	response, err := httpClient.Get(ctx, endpoint, parameters, map[string]string{})
 
 	if err != nil {
 		return "", err
@@ -85,7 +86,7 @@ func (c *ConsulStatus) ListRaftPeers(parameters map[string]string) (string, erro
 }
 
 // Read gets a kv
-func (c *ConsulKv) Read(key string, parameters map[string]string) (string, error) {
+func (c *ConsulKv) Read(ctx context.Context, key string, parameters map[string]string) (string, error) {
 	endpoint := fmt.Sprintf(
 		"%s/%s/kv/%s",
 		strings.TrimSuffix(c.Config.URL, "/"),
@@ -95,7 +96,7 @@ func (c *ConsulKv) Read(key string, parameters map[string]string) (string, error
 
 	httpClient := NewHTTPClient()
 
-	response, err := httpClient.Get(endpoint, parameters, map[string]string{})
+	response, err := httpClient.Get(ctx, endpoint, parameters, map[string]string{})
 
 	if err != nil {
 		return "", err
@@ -119,7 +120,7 @@ func (c *ConsulKv) Read(key string, parameters map[string]string) (string, error
 }
 
 // Update update or create a kv
-func (c *ConsulKv) Update(key string, value string, parameters map[string]string) (string, error) {
+func (c *ConsulKv) Update(ctx context.Context, key string, value string, parameters map[string]string) (string, error) {
 	endpoint := fmt.Sprintf(
 		"%s/%s/kv/%s",
 		strings.TrimSuffix(c.Config.URL, "/"),
@@ -129,7 +130,7 @@ func (c *ConsulKv) Update(key string, value string, parameters map[string]string
 
 	httpClient := NewHTTPClient()
 
-	response, err := httpClient.Post(endpoint, value, parameters, map[string]string{})
+	response, err := httpClient.Post(ctx, endpoint, value, parameters, map[string]string{})
 
 	if err != nil {
 		return "", err
@@ -149,7 +150,7 @@ func (c *ConsulKv) Update(key string, value string, parameters map[string]string
 }
 
 // Delete deletes a kv
-func (c *ConsulKv) Delete(key string, parameters map[string]string) (string, error) {
+func (c *ConsulKv) Delete(ctx context.Context, key string, parameters map[string]string) (string, error) {
 	endpoint := fmt.Sprintf(
 		"%s/%s/kv/%s",
 		strings.TrimSuffix(c.Config.URL, "/"),
@@ -159,7 +160,7 @@ func (c *ConsulKv) Delete(key string, parameters map[string]string) (string, err
 
 	httpClient := NewHTTPClient()
 
-	response, err := httpClient.Get(endpoint, parameters, map[string]string{})
+	response, err := httpClient.Get(ctx, endpoint, parameters, map[string]string{})
 
 	if err != nil {
 		return "", err
