@@ -3,7 +3,7 @@ module github.com/clivern/hippo
 go 1.14
 
 require (
-	github.com/go-redis/redis v6.15.8+incompatible
+	github.com/go-redis/redis/v7 v7.4.0
 	github.com/nbio/st v0.0.0-20140626010706-e9e8d9816f32
 	github.com/onsi/ginkgo v1.14.0 // indirect
 	github.com/satori/go.uuid v1.2.0
